@@ -1,4 +1,0 @@
-Run these in the project terminal after copying the files:
-
-git rm --cached android/build/reports/problems/problems-report.html
-git rm analysis_output.txt backend/package_new.json lib/db/profile_provider_api.dart
