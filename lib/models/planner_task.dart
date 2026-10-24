@@ -6,9 +6,9 @@ class PlannerTask {
   final String userId;
   String title;
   String? subtitle;
-  String time;       // "HH:mm"
+  String time;
   int colorValue;
-  DateTime date;     // which day this belongs to
+  DateTime date;
   bool completed;
 
   PlannerTask({
@@ -25,7 +25,6 @@ class PlannerTask {
   Color get color => Color(colorValue);
   Color get colorLight => AppColors.lightFor(Color(colorValue));
 
-  /// Display time, e.g. "7:30 AM"
   String get displayTime {
     final parts = time.split(':');
     if (parts.length < 2) {
@@ -42,7 +41,6 @@ class PlannerTask {
     return '$h:${m.toString().padLeft(2, '0')} $period';
   }
 
-  /// Sort key
   int get sortKey {
     final parts = time.split(':');
     return (int.tryParse(parts[0]) ?? 0) * 60 + (int.tryParse(parts.elementAtOrNull(1) ?? '0') ?? 0);
@@ -63,9 +61,9 @@ class PlannerTask {
     id: m['id'],
     userId: m['user_id'] ?? '',
     title: m['title'],
-    subtitle: m['subtitle'] ?? m['description'], // API uses 'description'
-    time: m['time'] ?? '12:00', // Default time if not provided
-    colorValue: m['color_value'] ?? 0xFF2196F3, // Default blue color
+    subtitle: m['subtitle'] ?? m['description'],
+    time: m['time'] ?? '12:00',
+    colorValue: m['color_value'] ?? 0xFF2196F3,
     date: DateTime.parse(m['date']),
     completed: m['completed'] == 1,
   );

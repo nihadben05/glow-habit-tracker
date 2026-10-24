@@ -19,7 +19,6 @@ class StatsScreen extends StatelessWidget {
       final totalComp = prov.totalCompletions;
       final bestStreak = prov.bestStreak;
 
-      // Build 7-day bars from compMap
       final today = DateTime.now();
       final weekBars = List.generate(7, (i) {
         final d = DateTime(today.year, today.month, today.day).subtract(Duration(days: 6 - i));
@@ -40,7 +39,6 @@ class StatsScreen extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(24, 56, 24, 20),
                   child: Text('Your Stats ✦', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: AppColors.txt)),
                 ),
-            // Stat grid
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: GridView.count(
@@ -56,7 +54,6 @@ class StatsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Weekly bar chart
             GlowCard(
               margin: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -104,7 +101,6 @@ class StatsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Heatmap - last 91 days
             GlowCard(
               margin: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -115,7 +111,6 @@ class StatsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Per-habit stats
             if (habits.isNotEmpty) ...[
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),

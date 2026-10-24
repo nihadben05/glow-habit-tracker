@@ -13,7 +13,7 @@ class ProfileProvider extends ChangeNotifier {
   static const _kDark     = 'profile_dark';
   static const _kWeekly   = 'profile_weekly';
   static const _kEmail    = 'profile_email';
-  static const _kPassword = 'profile_password'; // hashed simple check (local only)
+  static const _kPassword = 'profile_password';
   static const _kUserId   = 'profile_user_id';
   static const _kLoggedIn = 'profile_logged_in';
 
@@ -23,7 +23,6 @@ class ProfileProvider extends ChangeNotifier {
   String? _storedUserId;
   String? _storedEmail;
 
-  // Convenience getters
   String? get userId         => _storedUserId;
   String get name            => profile.name;
   String get title           => profile.title;
@@ -33,7 +32,6 @@ class ProfileProvider extends ChangeNotifier {
   bool get darkMode             => profile.darkMode;
   bool get weeklyReport         => profile.weeklyReport;
 
-  /// Called once on app start — restores auth state and profile
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
     isLoggedIn      = prefs.getBool(_kLoggedIn) ?? false;
@@ -68,9 +66,6 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ── AUTH ──────────────────────────────────────────────────
-
-  /// Register a new account. Returns error string on failure, null on success.
   Future<String?> register({
     required String name,
     required String email,
@@ -81,10 +76,8 @@ class ProfileProvider extends ChangeNotifier {
     if (password.length < 6)     return 'Password must be at least 6 characters.';
 
     try {
-      // Call backend API
       final userData = await ApiService.register(name: name, email: email, password: password);
 
-      // Save profile locally
       _storedUserId = userData!['userId'];
       _storedEmail = email.trim().toLowerCase();
       profile = profile.copyWith(name: userData['name']);
@@ -97,13 +90,12 @@ class ProfileProvider extends ChangeNotifier {
       await _save();
 
       notifyListeners();
-      return null; // success
+      return null;
     } catch (e) {
       return e.toString().replaceFirst('Exception: ', '');
     }
   }
 
-  /// Log in with email + password. Returns error string on failure, null on success.
   Future<String?> login({
     required String email,
     required String password,
@@ -112,10 +104,8 @@ class ProfileProvider extends ChangeNotifier {
     if (password.isEmpty)       return 'Please enter your password.';
 
     try {
-      // Call backend API
       final userData = await ApiService.login(email: email, password: password);
 
-      // Save profile locally
       _storedUserId = userData!['userId'];
       _storedEmail = email.toLowerCase();
       profile = profile.copyWith(name: userData['name']);
@@ -128,19 +118,18 @@ class ProfileProvider extends ChangeNotifier {
       await _save();
 
       notifyListeners();
-      return null; // success
+      return null;
     } catch (e) {
       return e.toString().replaceFirst('Exception: ', '');
     }
   }
 
-  /// Log out — clears all authentication data and profile
   Future<void> logout() async {
     isLoggedIn = false;
     _storedUserId = null;
     _storedEmail = null;
-    profile = UserProfile(); // Reset profile to empty state
-    
+    profile = UserProfile();
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kLoggedIn, false);
     await prefs.remove(_kUserId);
@@ -149,11 +138,9 @@ class ProfileProvider extends ChangeNotifier {
     await prefs.remove(_kName);
     await prefs.remove(_kTitle);
     await prefs.remove(_kBio);
-    
+
     notifyListeners();
   }
-
-  // ── PROFILE EDIT ─────────────────────────────────────────
 
   Future<void> update({
     String? newName,

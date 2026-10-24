@@ -36,10 +36,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Glow App',
+        title: 'Glow',
         theme: AppTheme.light,
 
-        // ✅ FIRST PAGE IS SPLASH
         home: const SplashScreen(),
       ),
     );

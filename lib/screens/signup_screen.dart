@@ -49,7 +49,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (error != null) {
         setState(() => _errorMsg = error);
       } else {
-        // Reload habit and planner state after clearing previous account data.
         final userId = context.read<ProfileProvider>().userId;
         await context.read<HabitProvider>().load(userId: userId);
         await context.read<PlannerProvider>().load(userId: userId);
@@ -60,7 +59,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() => _loading = false);
       setState(() => _errorMsg = 'An error occurred. Please try again.');
     }
-    // On success AuthGate automatically switches to Shell
   }
 
   @override
@@ -76,7 +74,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                // ── Back
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
                   child: Container(
@@ -89,7 +86,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-                // ── Logo small
                 Container(
                   width: 52, height: 52,
                   decoration: BoxDecoration(
@@ -104,7 +100,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const Text('Start building better habits today.', style: TextStyle(fontSize: 15, color: AppColors.txt2)),
                 const SizedBox(height: 36),
 
-                // ── Name
                 Label('Full Name'),
                 const SizedBox(height: 8),
                 Field(
@@ -115,7 +110,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 18),
 
-                // ── Email
                 Label('Email Address'),
                 const SizedBox(height: 8),
                 Field(
@@ -131,7 +125,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 18),
 
-                // ── Password
                 Label('Password'),
                 const SizedBox(height: 8),
                 Field(
@@ -151,7 +144,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 18),
 
-                // ── Confirm Password
                 Label('Confirm Password'),
                 const SizedBox(height: 8),
                 Field(
@@ -171,13 +163,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 28),
 
-                // ── Error banner
                 if (_errorMsg != null) ...[
                   ErrorBanner(message: _errorMsg!),
                   const SizedBox(height: 16),
                 ],
 
-                // ── Submit
                 PrimaryBtn(
                   label: 'Create Account',
                   loading: _loading,
@@ -185,7 +175,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // ── Already have account
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   const Text('Already have an account? ', style: TextStyle(color: AppColors.txt2, fontSize: 14)),
                   GestureDetector(
@@ -202,12 +191,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
-
-// ─────────────────────────────────────────
-// LOGIN SCREEN  (also in this file for brevity — split if preferred)
-// ─────────────────────────────────────────
-
-// ── Shared auth widgets ──────────────────
 
 class Label extends StatelessWidget {
   final String text;

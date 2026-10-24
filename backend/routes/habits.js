@@ -5,7 +5,6 @@ import { authMiddleware } from '../utils/auth.js';
 
 const router = express.Router();
 
-// Get all habits for user
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const habits = await query('SELECT * FROM habits WHERE user_id = ? ORDER BY created_at ASC', [req.userId]);
@@ -15,7 +14,6 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Create habit
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { name, emoji, colorValue, freq, reminderTime } = req.body;
@@ -37,7 +35,6 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Update habit
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
@@ -55,7 +52,6 @@ router.put('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// Delete habit
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
@@ -66,7 +62,6 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// Get habit logs for a date
 router.get('/logs/:date', authMiddleware, async (req, res) => {
   try {
     const { date } = req.params;
@@ -80,7 +75,6 @@ router.get('/logs/:date', authMiddleware, async (req, res) => {
   }
 });
 
-// Toggle habit log
 router.post('/logs/toggle', authMiddleware, async (req, res) => {
   try {
     const { habitId, date, completed } = req.body;

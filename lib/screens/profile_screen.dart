@@ -23,7 +23,6 @@ class ProfileScreen extends StatelessWidget {
             SliverToBoxAdapter(child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── Hero
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(24, 56, 24, 32),
@@ -68,7 +67,6 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // ── Quick stats
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(children: [
@@ -81,7 +79,6 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // ── My Habits
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: SectionLabel('My Habits',
@@ -120,7 +117,6 @@ class ProfileScreen extends StatelessWidget {
                   )),
                 const SizedBox(height: 24),
 
-                // ── Settings
                 const Padding(padding: EdgeInsets.symmetric(horizontal: 24), child: SectionLabel('Settings')),
                 const SizedBox(height: 12),
 
@@ -153,7 +149,6 @@ class ProfileScreen extends StatelessWidget {
                 _SettingsTile(icon: '⭐', title: 'Rate the App', subtitle: 'Leave a review on the App Store'),
                 const SizedBox(height: 16),
 
-                // Sign out
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: OutlinedButton.icon(
@@ -192,17 +187,13 @@ class ProfileScreen extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
-            // غلق dialog
             Navigator.pop(dialogContext);
 
-            // logout
             await profile.logout();
 
-            // reset data
             await context.read<HabitProvider>().load(userId: null);
             await context.read<PlannerProvider>().load(userId: null);
 
-            // 🔥 أهم خطوة: امسح navigation وروح للـ login
            Navigator.pushAndRemoveUntil(
            context,
            MaterialPageRoute(builder: (_) => const AuthGate()),

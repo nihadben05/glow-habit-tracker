@@ -43,7 +43,7 @@ class ApiService {
         _token = data['token'];
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('auth_token', _token!);
-        return data; // return user data
+        return data;
       } else {
         final error = jsonDecode(response.body);
         throw Exception(error['error'] ?? 'Registration failed');
@@ -72,7 +72,7 @@ class ApiService {
         _token = data['token'];
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('auth_token', _token!);
-        return data; // return user data
+        return data;
       } else {
         final error = jsonDecode(response.body);
         throw Exception(error['error'] ?? 'Login failed');
@@ -95,7 +95,6 @@ class ApiService {
     };
   }
 
-  // Habits API
   static Future<List<dynamic>> getHabits() async {
     try {
       final response = await http.get(
@@ -222,7 +221,6 @@ class ApiService {
     }
   }
 
-  // Planner API
   static Future<List<dynamic>> getPlannerTasks(String date) async {
     try {
       final response = await http.get(

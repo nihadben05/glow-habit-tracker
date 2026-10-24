@@ -5,7 +5,6 @@ import { authMiddleware } from '../utils/auth.js';
 
 const router = express.Router();
 
-// Get tasks for date
 router.get('/:date', authMiddleware, async (req, res) => {
   try {
     const { date } = req.params;
@@ -16,7 +15,6 @@ router.get('/:date', authMiddleware, async (req, res) => {
   }
 });
 
-// Create task
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { title, description, date, priority, subtitle, time, colorValue } = req.body;
@@ -31,15 +29,15 @@ router.post('/', authMiddleware, async (req, res) => {
       [taskId, req.userId, title, subtitle || description, time || '12:00', colorValue || 4280391411, description, date, priority || 0]
     );
 
-    res.json({ 
-      id: taskId, 
+    res.json({
+      id: taskId,
       user_id: req.userId,
-      title, 
+      title,
       subtitle: subtitle || description,
       time: time || '12:00',
       color_value: colorValue || 4280391411,
-      description, 
-      date, 
+      description,
+      date,
       priority: priority || 0,
       completed: 0
     });
@@ -48,7 +46,6 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Update task
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
@@ -65,7 +62,6 @@ router.put('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// Delete task
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;

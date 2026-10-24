@@ -97,7 +97,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(child: Column(children: [
-        // Top bar
         Padding(
           padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
           child: Row(children: [
@@ -119,7 +118,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
         Expanded(child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            // Name
             const Text('Habit Name', style: TextStyle(fontSize: 14, color: AppColors.txt, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
             TextField(
@@ -129,7 +127,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             ),
             const SizedBox(height: 24),
 
-            // Emoji
             const Text('Emoji', style: TextStyle(fontSize: 14, color: AppColors.txt, fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
             Wrap(spacing: 8, runSpacing: 8, children: _emojis.map((e) {
@@ -150,13 +147,11 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             }).toList()),
             const SizedBox(height: 24),
 
-            // Color
             const Text('Color', style: TextStyle(fontSize: 14, color: AppColors.txt, fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
             ColorPicker(selected: _color, onChanged: (c) => setState(() => _color = c)),
             const SizedBox(height: 24),
 
-            // Frequency
             const Text('Frequency', style: TextStyle(fontSize: 14, color: AppColors.txt, fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
             Wrap(spacing: 8, runSpacing: 8, children: _freqLabels.entries.map((e) {
@@ -177,7 +172,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             }).toList()),
             const SizedBox(height: 24),
 
-            // Reminder
             const Text('Reminder (optional)', style: TextStyle(fontSize: 14, color: AppColors.txt, fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
             GestureDetector(

@@ -16,7 +16,6 @@ class SplashScreen extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(),
-              // ── Logo
               Container(
                 width: 88, height: 88,
                 decoration: BoxDecoration(
@@ -30,7 +29,6 @@ class SplashScreen extends StatelessWidget {
                 child: const Center(child: Text('✦', style: TextStyle(fontSize: 42, color: Colors.white))),
               ),
               const SizedBox(height: 32),
-              // ── Headline
               RichText(
                 textAlign: TextAlign.center,
                 text: const TextSpan(
@@ -48,20 +46,17 @@ class SplashScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: AppColors.txt2, height: 1.6),
               ),
               const SizedBox(height: 48),
-              // ── Dots
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 _Dot(active: true), const SizedBox(width: 8),
                 const _Dot(), const SizedBox(width: 8),
                 const _Dot(),
               ]),
               const SizedBox(height: 32),
-              // ── Get Started → Sign Up
               _PrimaryBtn(
                 label: 'Get Started →',
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpScreen())),
               ),
               const SizedBox(height: 12),
-              // ── Log In
               _GhostBtn(
                 label: 'I already have an account',
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen())),

@@ -7,22 +7,22 @@ import '../models/habit.dart';
 import '../utils/theme.dart';
 import '../widgets/shared.dart';
 import 'habit_detail_screen.dart';
- 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
- 
+
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _selectedDate = DateTime.now();
   Map<String, bool> _dateStatus = {};
   String? _toastMsg;
- 
+
   static DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
- 
+
   bool get _isToday => _dateOnly(_selectedDate) == _dateOnly(DateTime.now());
- 
+
   Future<void> _loadDateStatus(HabitProvider prov) async {
     if (_isToday) {
       setState(() => _dateStatus = Map.from(prov.todayStatus));
@@ -31,42 +31,40 @@ class _HomeScreenState extends State<HomeScreen> {
       if (mounted) setState(() => _dateStatus = s);
     }
   }
- 
+
   void _showToast(String msg) {
     setState(() => _toastMsg = msg);
     Future.delayed(const Duration(milliseconds: 2400), () {
       if (mounted) setState(() => _toastMsg = null);
     });
   }
- 
+
   Future<void> _toggle(HabitProvider prov, Habit h) async {
     final wasDone = _isToday ? (prov.todayStatus[h.id] ?? false) : (_dateStatus[h.id] ?? false);
     if (_isToday) {
       await prov.toggleToday(h.id);
       if (!wasDone) _showToast('✦ ${h.name} completed!');
     }
-    // Past dates: show info only (read-only for history)
     else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('History is read-only. Toggle today\'s habits from the Today view.'), duration: Duration(seconds: 2)));
     }
     await _loadDateStatus(prov);
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Consumer<HabitProvider>(builder: (context, prov, _) {
       if (prov.loading) return const Center(child: CircularProgressIndicator(color: AppColors.purple));
- 
-      // Load date status when provider updates
+
       WidgetsBinding.instance.addPostFrameCallback((_) => _loadDateStatus(prov));
- 
+
       final habits = prov.habits;
       final progress = _isToday ? prov.todayProgress
           : (habits.isEmpty ? 0.0 : _dateStatus.values.where((v) => v).length / habits.length);
       final done = _isToday ? prov.doneToday
           : _dateStatus.values.where((v) => v).length;
- 
+
       final bottomInset = MediaQuery.of(context).viewPadding.bottom + 50;
       return Stack(children: [
         Padding(
@@ -75,10 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverToBoxAdapter(child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── Header
                 _Header(date: _selectedDate, name: context.watch<ProfileProvider>().name),
                 const SizedBox(height: 4),
-                // ── Week strip
                 _WeekStrip(
                   selected: _selectedDate,
                 onSelect: (d) {
@@ -87,13 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               const SizedBox(height: 20),
-              // ── Progress card
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: _ProgressCard(done: done, total: habits.length, progress: progress, streak: prov.bestStreak),
               ),
               const SizedBox(height: 24),
-              // ── Habits
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: SectionLabel(
@@ -126,33 +120,28 @@ class _HomeScreenState extends State<HomeScreen> {
           )),
         ]),
         ),
-        // Toast
         _toastMsg != null ? Positioned(top: 80, left: 24, right: 24, child: _Toast(message: _toastMsg!)) : SizedBox.shrink(),
       ]);
     });
   }
 }
- 
-// ── Sub-widgets ──────────────────────────────────────────────
- 
+
 class _Header extends StatelessWidget {
   final DateTime date;
   final String name;
   const _Header({required this.date, required this.name});
- 
+
   String _greeting() {
     final h = DateTime.now().hour;
     if (h < 12) return 'Good morning ☀️';
     if (h < 17) return 'Good afternoon 👋';
     return 'Good evening 🌙';
   }
- 
-  // First name only — "Alex Johnson" → "Alex"
+
   String get _firstName => name.trim().split(' ').first;
- 
-  // First letter for avatar
+
   String get _initial => name.isNotEmpty ? name[0].toUpperCase() : 'A';
- 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -178,14 +167,14 @@ class _Header extends StatelessWidget {
     );
   }
 }
- 
+
 class _WeekStrip extends StatelessWidget {
   final DateTime selected;
   final ValueChanged<DateTime> onSelect;
   const _WeekStrip({required this.selected, required this.onSelect});
- 
+
   static DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
- 
+
   @override
   Widget build(BuildContext context) {
     final today = _dateOnly(DateTime.now());
@@ -236,13 +225,13 @@ class _WeekStrip extends StatelessWidget {
     );
   }
 }
- 
+
 class _ProgressCard extends StatelessWidget {
   final int done, total;
   final double progress;
   final int streak;
   const _ProgressCard({required this.done, required this.total, required this.progress, required this.streak});
- 
+
   @override
   Widget build(BuildContext context) {
     final pct = (progress * 100).round();
@@ -287,14 +276,14 @@ class _ProgressCard extends StatelessWidget {
     );
   }
 }
- 
+
 class _HabitTile extends StatelessWidget {
   final Habit habit;
   final bool done;
   final VoidCallback onToggle;
   final VoidCallback onTap;
   const _HabitTile({required this.habit, required this.done, required this.onToggle, required this.onTap});
- 
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -353,7 +342,7 @@ class _HabitTile extends StatelessWidget {
     );
   }
 }
- 
+
 class _Toast extends StatelessWidget {
   final String message;
   const _Toast({required this.message});

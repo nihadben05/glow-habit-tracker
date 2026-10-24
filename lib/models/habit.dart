@@ -6,9 +6,9 @@ class Habit {
   final String userId;
   String name;
   String emoji;
-  int colorValue;    // stored as int (color.value)
-  String freq;       // 'daily' | 'weekdays' | 'weekends' | '3x_week'
-  String? reminderTime; // "HH:mm" or null
+  int colorValue;
+  String freq;
+  String? reminderTime;
   int streak;
   int bestStreak;
   DateTime createdAt;
@@ -75,12 +75,11 @@ class Habit {
   );
 }
 
-// One log per habit per day
 class HabitLog {
   final String id;
   final String habitId;
   final String userId;
-  final DateTime date;    // normalized to midnight
+  final DateTime date;
   bool completed;
   String? note;
 

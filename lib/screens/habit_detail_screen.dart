@@ -40,7 +40,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
     return _logs.where((l) => l.completed).length / _logs.length;
   }
 
-  // Last 28 days grid status
   Map<DateTime, bool> _buildCalendarMap() {
     final map = <DateTime, bool>{};
     for (final log in _logs) {
@@ -66,7 +65,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
       return Scaffold(
         backgroundColor: AppColors.bg,
         body: CustomScrollView(slivers: [
-          // Hero header
           SliverToBoxAdapter(child: Container(
             padding: const EdgeInsets.fromLTRB(24, 56, 24, 28),
             decoration: BoxDecoration(
@@ -134,7 +132,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
           SliverToBoxAdapter(child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(children: [
-              // Stats row
               Row(children: [
                 Expanded(child: _StatMini(icon: '🔥', value: '${habit.streak}', label: 'Current')),
                 const SizedBox(width: 12),
@@ -144,7 +141,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
               ]),
               const SizedBox(height: 20),
 
-              // Calendar heatmap (last 28 days)
               GlowCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const SectionLabel('Last 28 Days'),
                 const SizedBox(height: 16),
@@ -155,7 +151,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
               ])),
               const SizedBox(height: 16),
 
-              // Recent logs
               GlowCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const SectionLabel('Recent Activity'),
                 const SizedBox(height: 12),
@@ -169,7 +164,6 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
               ])),
               const SizedBox(height: 16),
 
-              // Delete button
               OutlinedButton.icon(
                 onPressed: () => _confirmDelete(context, prov, habit),
                 icon: const Icon(Icons.delete_outline_rounded, size: 18),
@@ -255,12 +249,10 @@ class _MiniCalendar extends StatelessWidget {
     });
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      // Day labels
       Row(children: ['M','T','W','T','F','S','S'].map((d) =>
         Expanded(child: Center(child: Text(d, style: const TextStyle(fontSize: 10, color: AppColors.txt3, fontWeight: FontWeight.w600))))
       ).toList()),
       const SizedBox(height: 6),
-      // Grid
       GridView.count(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),

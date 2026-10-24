@@ -23,7 +23,6 @@ export async function getPool() {
 
 export async function initDatabase() {
   try {
-    // First, create the database if it doesn't exist
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
@@ -34,11 +33,9 @@ export async function initDatabase() {
     await connection.execute(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`);
     await connection.end();
 
-    // Now create tables
     const pool = await getPool();
     const connection2 = await pool.getConnection();
 
-    // Users table
     await connection2.execute(`
       CREATE TABLE IF NOT EXISTS users (
         id VARCHAR(36) PRIMARY KEY,
@@ -55,7 +52,6 @@ export async function initDatabase() {
       )
     `);
 
-    // Habits table
     await connection2.execute(`
       CREATE TABLE IF NOT EXISTS habits (
         id VARCHAR(36) PRIMARY KEY,
@@ -74,7 +70,6 @@ export async function initDatabase() {
       )
     `);
 
-    // Habit logs table
     await connection2.execute(`
       CREATE TABLE IF NOT EXISTS habit_logs (
         id VARCHAR(36) PRIMARY KEY,
@@ -92,7 +87,6 @@ export async function initDatabase() {
       )
     `);
 
-    // Planner tasks table
     await connection2.execute(`
       CREATE TABLE IF NOT EXISTS planner_tasks (
         id VARCHAR(36) PRIMARY KEY,
@@ -113,7 +107,6 @@ export async function initDatabase() {
       )
     `);
 
-    // Ensure planner_tasks columns exist when upgrading from older schema
     const [columns] = await connection2.execute(
       'SHOW COLUMNS FROM planner_tasks'
     );

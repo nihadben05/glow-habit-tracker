@@ -108,7 +108,6 @@ class AppDatabase {
     ''');
   }
 
-  /// User account storage
   Future<void> insertUser(Map<String, Object?> user) async {
     final d = await db;
     await d.insert('users', user, conflictAlgorithm: ConflictAlgorithm.replace);
@@ -130,8 +129,6 @@ class AppDatabase {
     final d = await db;
     await d.update('users', data, where: 'id = ?', whereArgs: [id]);
   }
-
-  // ── HABITS ──────────────────────────────────────────────
 
   Future<List<Habit>> getAllHabits(String userId) async {
     final d = await db;
@@ -155,9 +152,6 @@ class AppDatabase {
     await d.delete('habit_logs', where: 'habit_id = ?', whereArgs: [id]);
   }
 
-  // ── HABIT LOGS ──────────────────────────────────────────
-
-  /// Get all logs for a specific date
   Future<List<HabitLog>> getLogsForDate(String userId, DateTime date) async {
     final d = await db;
     final dateStr = _dateOnly(date).toIso8601String();
@@ -165,7 +159,6 @@ class AppDatabase {
     return rows.map(HabitLog.fromMap).toList();
   }
 
-  /// Get all logs for a habit (last N days)
   Future<List<HabitLog>> getLogsForHabit(String habitId, {int days = 30}) async {
     final d = await db;
     final from = _dateOnly(DateTime.now().subtract(Duration(days: days))).toIso8601String();
@@ -178,7 +171,6 @@ class AppDatabase {
     return rows.map(HabitLog.fromMap).toList();
   }
 
-  /// Get all logs for the last N days (for heatmap/stats)
   Future<List<HabitLog>> getRecentLogs(String userId, {int days = 91}) async {
     final d = await db;
     final from = _dateOnly(DateTime.now().subtract(Duration(days: days))).toIso8601String();
@@ -191,7 +183,6 @@ class AppDatabase {
     await d.insert('habit_logs', log.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  /// Toggle completion for a habit on a given date, returns new log
   Future<HabitLog> toggleHabitLog({
     required String habitId,
     required String logId,
@@ -216,8 +207,6 @@ class AppDatabase {
     await d.insert('habit_logs', log.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
     return log;
   }
-
-  // ── PLANNER ─────────────────────────────────────────────
 
   Future<List<PlannerTask>> getTasksForDate(String userId, DateTime date) async {
     final d = await db;
@@ -256,9 +245,6 @@ class AppDatabase {
     }
   }
 
-  // ── STATS ───────────────────────────────────────────────
-
-  /// Returns how many habits were completed on each date (for heatmap)
   Future<Map<DateTime, int>> getCompletionMap(String userId, {int days = 91}) async {
     final logs = await getRecentLogs(userId, days: days);
     final map = <DateTime, int>{};
@@ -271,7 +257,6 @@ class AppDatabase {
     return map;
   }
 
-  /// Recalculate and update streak for a habit
   Future<int> recalcStreak(String habitId) async {
     final logs = await getLogsForHabit(habitId, days: 365);
     final completedDates = logs.where((l) => l.completed).map((l) => _dateOnly(l.date)).toSet();
@@ -279,7 +264,6 @@ class AppDatabase {
     int streak = 0;
     DateTime cursor = _dateOnly(DateTime.now());
 
-    // If today not done, start from yesterday
     if (!completedDates.contains(cursor)) {
       cursor = cursor.subtract(const Duration(days: 1));
     }
@@ -290,8 +274,6 @@ class AppDatabase {
     }
     return streak;
   }
-
-  // ── HELPERS ─────────────────────────────────────────────
 
   static DateTime _dateOnly(DateTime dt) =>
     DateTime(dt.year, dt.month, dt.day);

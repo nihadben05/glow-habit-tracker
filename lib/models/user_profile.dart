@@ -15,7 +15,6 @@ class UserProfile {
     this.weeklyReport = false,
   });
 
-  /// First letter of name, used for avatar
   String get initial => name.isNotEmpty ? name[0].toUpperCase() : '';
 
   UserProfile copyWith({

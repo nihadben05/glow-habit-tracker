@@ -34,7 +34,6 @@ class _ShellState extends State<Shell> {
         idx: _idx,
         onTap: (i) {
           if (i == 2) {
-            // FAB: push add screen as a modal
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -53,14 +52,12 @@ class _ShellState extends State<Shell> {
   }
 }
 
-// Placeholder for index 2 (FAB slot — never actually shown)
 class _AddPlaceholder extends StatelessWidget {
   const _AddPlaceholder();
   @override
   Widget build(BuildContext context) => const SizedBox.shrink();
 }
 
-// ── Bottom Nav ────────────────────────────────────────────────
 class _BottomNav extends StatelessWidget {
   final int idx;
   final ValueChanged<int> onTap;
@@ -84,7 +81,6 @@ class _BottomNav extends StatelessWidget {
             children: [
               _NI(icon: Icons.home_rounded,            label: 'Home',    active: idx == 0, onTap: () => onTap(0)),
               _NI(icon: Icons.bar_chart_rounded,       label: 'Stats',   active: idx == 1, onTap: () => onTap(1)),
-              // FAB centre button
               GestureDetector(
                 onTap: () => onTap(2),
                 child: Container(

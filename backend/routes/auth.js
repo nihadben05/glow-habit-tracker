@@ -5,7 +5,6 @@ import { hashPassword, verifyPassword, generateToken, authMiddleware } from '../
 
 const router = express.Router();
 
-// Register
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -18,7 +17,6 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'Password must be at least 6 characters' });
     }
 
-    // Check if user already exists
     const existing = await query('SELECT id FROM users WHERE email = ?', [email.toLowerCase()]);
     if (existing.length > 0) {
       return res.status(400).json({ error: 'User already exists' });
@@ -40,7 +38,6 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -78,7 +75,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get current user
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     const users = await query('SELECT * FROM users WHERE id = ?', [req.userId]);

@@ -95,7 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const SizedBox(height: 20),
 
-                // 🔙 Back button (your design style)
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
                   child: Container(
@@ -116,7 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 30),
 
-                // ✦ Logo
                 Container(
                   width: 55,
                   height: 55,
@@ -157,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 35),
 
-                // EMAIL
                 const Text('Email Address',
                     style: TextStyle(color: AppColors.txt, fontWeight: FontWeight.w600)),
 
@@ -178,7 +175,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 18),
 
-                // PASSWORD
                 const Text('Password',
                     style: TextStyle(color: AppColors.txt, fontWeight: FontWeight.w600)),
 
@@ -228,7 +224,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 20),
 
-                // LOGIN BUTTON
                 SizedBox(
                   width: double.infinity,
                   height: 52,
@@ -251,7 +246,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 20),
 
-                // SIGNUP
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

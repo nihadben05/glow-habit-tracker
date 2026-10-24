@@ -7,8 +7,8 @@ import '../services/api_service.dart';
 class HabitProvider extends ChangeNotifier {
   String? _userId;
   List<Habit> _habits = [];
-  Map<String, bool> _todayStatus = {};   // habitId -> completed today?
-  Map<DateTime, int> _completionMap = {}; // for heatmap
+  Map<String, bool> _todayStatus = {};
+  Map<DateTime, int> _completionMap = {};
   bool _loading = true;
 
   String? get userId => _userId;
@@ -47,8 +47,7 @@ class HabitProvider extends ChangeNotifier {
         final habitsData = await ApiService.getHabits();
         _habits = habitsData.map((data) => Habit.fromJson(data)).toList();
         await _refreshTodayStatus();
-        // TODO: Get completion map from API
-        _completionMap = {}; // Temporary empty map until API endpoint is ready
+        _completionMap = {};
       } catch (e) {
         print('Failed to load habits: $e');
         _habits = [];
@@ -94,12 +93,11 @@ class HabitProvider extends ChangeNotifier {
     }
   }
 
-  /// Toggle today's completion for a habit
   Future<void> toggleToday(String habitId) async {
     final current = _todayStatus[habitId] ?? false;
     final newVal = !current;
     final today = DateTime.now();
-    final dateStr = today.toIso8601String().split('T')[0]; // YYYY-MM-DD format
+    final dateStr = today.toIso8601String().split('T')[0];
 
     try {
       await ApiService.toggleHabitLog(
@@ -110,13 +108,10 @@ class HabitProvider extends ChangeNotifier {
 
       _todayStatus[habitId] = newVal;
 
-      // TODO: Update streak calculation via API
-      // For now, we'll refresh the habits to get updated streaks
       final habitsData = await ApiService.getHabits();
       _habits = habitsData.map((data) => Habit.fromJson(data)).toList();
 
-      // TODO: Refresh completion map via API
-      _completionMap = {}; // Temporary until API endpoint is ready
+      _completionMap = {};
 
       notifyListeners();
     } catch (e) {
@@ -240,13 +235,10 @@ class HabitProvider extends ChangeNotifier {
     }
   }
 
-  /// Get logs for a specific habit (for detail screen)
   Future<List<HabitLog>> getLogsForHabit(String habitId) async {
-    // TODO: Implement API call for habit logs
-    return []; // Temporary empty list
+    return [];
   }
 
-  /// Get logs for any date (used by home screen's date picker)
   Future<bool> _notificationsEnabled() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool('profile_notif') ?? true;

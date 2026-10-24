@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/theme.dart';
 
-// ── Primary gradient button
 class PrimaryBtn extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
@@ -30,7 +29,6 @@ class PrimaryBtn extends StatelessWidget {
   );
 }
 
-// ── Ghost / outlined button
 class GhostBtn extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
@@ -52,7 +50,6 @@ class GhostBtn extends StatelessWidget {
   );
 }
 
-// ── White card with shadow and border
 class GlowCard extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
@@ -74,7 +71,6 @@ class GlowCard extends StatelessWidget {
   );
 }
 
-// ── Section label
 class SectionLabel extends StatelessWidget {
   final String text;
   final Widget? trailing;
@@ -90,7 +86,6 @@ class SectionLabel extends StatelessWidget {
   );
 }
 
-// ── Chip/badge
 class AppChip extends StatelessWidget {
   final String label;
   final Color color;
@@ -105,7 +100,6 @@ class AppChip extends StatelessWidget {
   );
 }
 
-// ── Color dot picker row
 class ColorPicker extends StatelessWidget {
   final Color selected;
   final ValueChanged<Color> onChanged;
@@ -139,7 +133,6 @@ class ColorPicker extends StatelessWidget {
 
 }
 
-// ── Bottom sheet text field
 class SheetField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
@@ -168,7 +161,6 @@ class SheetField extends StatelessWidget {
   );
 }
 
-// ── Gradient progress bar
 class GradientProgressBar extends StatelessWidget {
   final double value;
   final double height;
@@ -194,7 +186,6 @@ class GradientProgressBar extends StatelessWidget {
   );
 }
 
-// ── Loading spinner overlay
 class LoadingOverlay extends StatelessWidget {
   const LoadingOverlay({super.key});
   @override
@@ -204,7 +195,6 @@ class LoadingOverlay extends StatelessWidget {
   );
 }
 
-// ── Empty state
 class EmptyState extends StatelessWidget {
   final String emoji;
   final String title;

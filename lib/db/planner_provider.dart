@@ -67,7 +67,7 @@ class PlannerProvider extends ChangeNotifier {
         title: title,
         date: dateStr,
         description: subtitle,
-        priority: 0, // Default priority
+        priority: 0,
         time: time,
         colorValue: color.value,
       );
@@ -90,7 +90,7 @@ class PlannerProvider extends ChangeNotifier {
         colorValue: updated.colorValue,
         completed: updated.completed,
         description: updated.subtitle,
-        priority: 0, // Default priority
+        priority: 0,
       );
       final idx = _tasks.indexWhere((t) => t.id == updated.id);
       if (idx != -1) _tasks[idx] = updated;
@@ -118,7 +118,7 @@ class PlannerProvider extends ChangeNotifier {
       if (idx == -1) return;
       final newVal = !_tasks[idx].completed;
       _tasks[idx] = _tasks[idx].copyWith(completed: newVal);
-      
+
       await ApiService.updateTask(
         taskId: id,
         title: _tasks[idx].title,
@@ -126,7 +126,7 @@ class PlannerProvider extends ChangeNotifier {
         description: _tasks[idx].subtitle,
         priority: 0,
       );
-      
+
       notifyListeners();
     } catch (e) {
       print('Failed to toggle task: $e');
