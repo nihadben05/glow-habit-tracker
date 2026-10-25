@@ -50,9 +50,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() => _errorMsg = error);
       } else {
         final userId = context.read<ProfileProvider>().userId;
-        await context.read<HabitProvider>().load(userId: userId);
-        await context.read<PlannerProvider>().load(userId: userId);
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        final habits = context.read<HabitProvider>();
+        final planner = context.read<PlannerProvider>();
+        final navigator = Navigator.of(context);
+        await habits.load(userId: userId);
+        await planner.load(userId: userId);
+        navigator.popUntil((route) => route.isFirst);
       }
     } catch (e) {
       if (!mounted) return;

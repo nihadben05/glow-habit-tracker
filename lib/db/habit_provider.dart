@@ -49,7 +49,7 @@ class HabitProvider extends ChangeNotifier {
         await _refreshTodayStatus();
         _completionMap = {};
       } catch (e) {
-        print('Failed to load habits: $e');
+        debugPrint('Failed to load habits: $e');
         _habits = [];
         _todayStatus = {};
         _completionMap = {};
@@ -88,7 +88,7 @@ class HabitProvider extends ChangeNotifier {
         if (log['completed'] == 1) _todayStatus[log['habit_id']] = true;
       }
     } catch (e) {
-      print('Failed to refresh today status: $e');
+      debugPrint('Failed to refresh today status: $e');
       _todayStatus = {for (final h in _habits) h.id: false};
     }
   }
@@ -115,7 +115,7 @@ class HabitProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print('Failed to toggle habit: $e');
+      debugPrint('Failed to toggle habit: $e');
       rethrow;
     }
   }
@@ -158,13 +158,13 @@ class HabitProvider extends ChangeNotifier {
             freq: freq,
           );
         } catch (e) {
-          print('Failed to schedule notification: $e');
+          debugPrint('Failed to schedule notification: $e');
         }
       }
 
       notifyListeners();
     } catch (e) {
-      print('Failed to add habit: $e');
+      debugPrint('Failed to add habit: $e');
       rethrow;
     }
   }
@@ -205,19 +205,19 @@ class HabitProvider extends ChangeNotifier {
             await NotificationService.instance.cancelHabitReminders(updated.id);
           }
         } catch (e) {
-          print('Failed to update notifications: $e');
+          debugPrint('Failed to update notifications: $e');
         }
       } else {
         try {
           await NotificationService.instance.cancelHabitReminders(updated.id);
         } catch (e) {
-          print('Failed to cancel notifications: $e');
+          debugPrint('Failed to cancel notifications: $e');
         }
       }
 
       notifyListeners();
     } catch (e) {
-      print('Failed to update habit: $e');
+      debugPrint('Failed to update habit: $e');
       rethrow;
     }
   }
@@ -230,7 +230,7 @@ class HabitProvider extends ChangeNotifier {
       _todayStatus.remove(id);
       notifyListeners();
     } catch (e) {
-      print('Failed to delete habit: $e');
+      debugPrint('Failed to delete habit: $e');
       rethrow;
     }
   }
@@ -256,7 +256,7 @@ class HabitProvider extends ChangeNotifier {
         for (final l in logs) if (l['completed'] == 1) l['habit_id']: true,
       };
     } catch (e) {
-      print('Failed to get status for date: $e');
+      debugPrint('Failed to get status for date: $e');
       return {for (final h in _habits) h.id: false};
     }
   }

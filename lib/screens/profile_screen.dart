@@ -187,18 +187,20 @@ class ProfileScreen extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
+            final habits = context.read<HabitProvider>();
+            final planner = context.read<PlannerProvider>();
+            final navigator = Navigator.of(context);
+
             Navigator.pop(dialogContext);
 
             await profile.logout();
+            await habits.load(userId: null);
+            await planner.load(userId: null);
 
-            await context.read<HabitProvider>().load(userId: null);
-            await context.read<PlannerProvider>().load(userId: null);
-
-           Navigator.pushAndRemoveUntil(
-           context,
-           MaterialPageRoute(builder: (_) => const AuthGate()),
-           (route) => false,
-             );
+            navigator.pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const AuthGate()),
+              (route) => false,
+            );
           },
           style: TextButton.styleFrom(
             foregroundColor: AppColors.coral,

@@ -55,11 +55,14 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     final userId = profile.userId;
+    final habits = context.read<HabitProvider>();
+    final planner = context.read<PlannerProvider>();
+    final navigator = Navigator.of(context);
 
-    await context.read<HabitProvider>().load(userId: userId);
-    await context.read<PlannerProvider>().load(userId: userId);
+    await habits.load(userId: userId);
+    await planner.load(userId: userId);
 
-    Navigator.of(context).pushAndRemoveUntil(
+    navigator.pushAndRemoveUntil(
       MaterialPageRoute(builder: (_) => const Shell()),
       (route) => false,
     );

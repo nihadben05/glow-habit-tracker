@@ -41,7 +41,7 @@ class PlannerProvider extends ChangeNotifier {
         final tasksData = await ApiService.getPlannerTasks(dateStr);
         _tasks = tasksData.map((data) => PlannerTask.fromJson(data)).toList();
       } catch (e) {
-        print('Failed to load planner tasks: $e');
+        debugPrint('Failed to load planner tasks: $e');
         _tasks = [];
       }
     }
@@ -69,13 +69,13 @@ class PlannerProvider extends ChangeNotifier {
         description: subtitle,
         priority: 0,
         time: time,
-        colorValue: color.value,
+        colorValue: color.toARGB32(),
       );
       final newTask = PlannerTask.fromJson(result);
       _tasks.add(newTask);
       notifyListeners();
     } catch (e) {
-      print('Failed to add task: $e');
+      debugPrint('Failed to add task: $e');
       rethrow;
     }
   }
@@ -96,7 +96,7 @@ class PlannerProvider extends ChangeNotifier {
       if (idx != -1) _tasks[idx] = updated;
       notifyListeners();
     } catch (e) {
-      print('Failed to update task: $e');
+      debugPrint('Failed to update task: $e');
       rethrow;
     }
   }
@@ -107,7 +107,7 @@ class PlannerProvider extends ChangeNotifier {
       _tasks.removeWhere((t) => t.id == id);
       notifyListeners();
     } catch (e) {
-      print('Failed to delete task: $e');
+      debugPrint('Failed to delete task: $e');
       rethrow;
     }
   }
@@ -129,7 +129,7 @@ class PlannerProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print('Failed to toggle task: $e');
+      debugPrint('Failed to toggle task: $e');
       rethrow;
     }
   }
